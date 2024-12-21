@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Factories\PaymentGatewayFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InitiatePaymentRequest;
+use App\Http\Requests\VerifyPaymentRequest;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -15,7 +16,7 @@ class PaymentController extends Controller
         return $this->successResponse(['checkout_url' =>$paymentGateway->initiatePayment($request->all())]);
     }
 
-    public function verifyPayment(Request $request){
+    public function verifyPayment(VerifyPaymentRequest $request){
         $paymentGateway = PaymentGatewayFactory::make($request->input('gateway'));
 
         return $this->successResponse(['successfulPayment' =>$paymentGateway->verifyPayment($request->input('paymentId'))]);
