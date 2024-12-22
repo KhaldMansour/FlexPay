@@ -20,7 +20,6 @@ class PaymentController extends Controller
         }catch(\Exception $e){
             return $this->failureResponse($e->getMessage());
         }
-
     }
 
     public function verifyPayment(VerifyPaymentRequest $request){
@@ -31,7 +30,6 @@ class PaymentController extends Controller
         }catch(\Exception $e){
             return $this->failureResponse($e->getMessage());
         }
-
     }
 
     public function handleStripeWebhook(Request $request)
@@ -44,6 +42,5 @@ class PaymentController extends Controller
         }catch(\Exception $e){
             Log::error($e->getMessage());   
         }
-        
     }
 }

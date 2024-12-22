@@ -88,8 +88,8 @@ class StripeGateway implements PaymentGateway
             'payment_method_types' => ['card'],
             'line_items' => [$checkoutItem],
             'mode' => 'payment',
-            'success_url' => env('APP_URL') . '/{CHECKOUT_SESSION_ID}',
-            'cancel_url' => env('APP_URL') . '/payment/cancel',
+            'success_url' => env('APP_URL'),
+            'cancel_url' => env('APP_URL'),
             'metadata' => [
                 'product_name' => $checkoutItem['price_data']['product_data']['name'],  
                 'price' => $checkoutItem['price_data']['unit_amount'] / 100,
