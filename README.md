@@ -1,7 +1,7 @@
 # PayFlex
-### An Online Payment Gateway Integration System
+#### An Online Payment Gateway Integration System
 
-# Online Payment Gateway System
+## Online Payment Gateway System
 
 ### A modular and scalable payment gateway integration system built with Laravel, adhering to SOLID principles, and containerized using Docker and Docker Compose. This system integrates **Stripe** as a proof of concept for online payments.
 
