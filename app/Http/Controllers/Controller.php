@@ -6,7 +6,6 @@ use Illuminate\Http\Response;
 
 abstract class Controller
 {
-
     public function successResponse($data, $message = 'Request successful', $statusCode = Response::HTTP_OK)
     {
         return response()->json([
