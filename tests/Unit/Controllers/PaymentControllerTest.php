@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Controllers;
 
 use App\Factories\PaymentGatewayFactory;
 use App\Http\Requests\InitiatePaymentRequest;
@@ -8,7 +8,6 @@ use App\Http\Controllers\API\PaymentController;
 use App\Http\Requests\VerifyPaymentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Testing\Fakes\Fake;
 use Mockery;
 use Tests\TestCase;
 
