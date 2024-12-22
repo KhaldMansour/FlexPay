@@ -4,12 +4,11 @@ namespace App\Services\PaymentGateways;
 
 use App\Interfaces\PaymentGateway;
 use App\Models\StripePayment;
+use Illuminate\Support\Facades\Log;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Stripe\Webhook;
-
-use function Illuminate\Log\log;
 
 class StripeGateway implements PaymentGateway
 {
@@ -65,6 +64,7 @@ class StripeGateway implements PaymentGateway
                     break;
             }
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw $e;
         };
     }
