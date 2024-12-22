@@ -189,7 +189,8 @@ The response will return a checkout_url that the user can use to complete the pa
 ### Verifying a Payment
 
 To verify a payment, use the /api/payment/verify endpoint. You need to provide the payment ID in the request payload:
-**Request::**
+
+**Request**
 ```json
 {
     "gateway": "stripe",
@@ -214,6 +215,7 @@ If the payment is successful, the response will return "successfulPayment": true
 Unit tests for core functionality are located in the tests/ directory.
 
 **Running Tests**
+
 To run the tests, execute:
 
         ./vendor/bin/phpunit
@@ -224,31 +226,31 @@ You can also run tests within the Docker container by:
 
 
 ## Docker Usage
-To run the application using Docker and Docker Compose, follow these steps:
+    To run the application using Docker and Docker Compose, follow these steps:
 
 1. **Build and Start the Containers:**
 
-Use the following command to build and start the containers:
+    Use the following command to build and start the containers:
 
-```bash
+    ```bash
 
-docker-compose up --build
-```
-This will build the images and start the containers, including the database and the web server.
+    docker-compose up --build
+    ```
+    This will build the images and start the containers, including the database and the web server.
 
 2. **Access the Application:**
 
-Once the containers are up and running, access the application at http://localhost:8000.
+    Once the containers are up and running, access the application at http://localhost:8000.
 
 
 ## Contributing
-We welcome contributions from the community. If you'd like to contribute, follow these steps:
+    We welcome contributions from the community. If you'd like to contribute, follow these steps:
 
-1. Fork the repository.
-2. Create a new branch (git checkout -b feature-name).
-3. Make your changes and commit (git commit -am 'Add feature').
-4. Push to the branch (git push origin feature-name).
-5. Create a pull request describing your changes.
+    1. Fork the repository.
+    2. Create a new branch (git checkout -b feature-name).
+    3. Make your changes and commit (git commit -am 'Add feature').
+    4. Push to the branch (git push origin feature-name).
+    5. Create a pull request describing your changes.
 
 ## License
-This project is licensed under the MIT License.
+    This project is licensed under the MIT License.
