@@ -1,8 +1,4 @@
-# PayFlex
-
-#### A modular and scalable payment gateway integration system built with Laravel, adhering to SOLID principles, and containerized using Docker and Docker Compose. This system integrates **Stripe** as a proof of concept for online payments.
-
----
+# FlexPay
 
 ## Table of Contents
 
@@ -12,13 +8,9 @@
 4. [Architecture and Design](#architecture-and-design)
 5. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
-   - [Setup](#setup)
    - [Docker Setup](#docker-setup)
 6. [Usage](#usage)
 7. [Testing](#testing)
-8. [Contributing](#contributing)
-9. [License](#license)
-
 ---
 
 ## Introduction
@@ -88,38 +80,10 @@ The architecture of the payment gateway system is built around key modules:
 
 ### Prerequisites
 
-- PHP >= 8.0
-- Composer (for PHP dependency management)
+
 - Docker & Docker Compose (for containerization)
-- Laravel 8.x or above
 - A .env file configured with necessary API keys for Stripe, PayPal, etc.
 
-### Setup
-
-1. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/your-username/payment-gateway-system.git
-   cd payment-gateway-system
-    ```
-2. **Install PHP dependencies:**
-    ```bash
-        composer install
-    ```
-
- 3. **Set up the environment file:**
-    Copy .env.example to .env and update your environment variables (e.g., database credentials, Stripe API keys):
-    
-    ```bash
-    cp .env.example .env
-    ```
-    Example of .env configuration:
-
-    ```
-    STRIPE_SECRET_KEY=your_stripe_secret_key
-    STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret_key
-    APP_URL=http://localhost
-    ```
 
  ### Docker Setup
  To set up the application using Docker, follow these steps:
@@ -139,13 +103,6 @@ The architecture of the payment gateway system is built around key modules:
 
     The application will be accessible on http://localhost:8000.
 
-4. **Run migrations:**
-
-    Run the migrations:
-
-    ```
-    docker-compose exec app php artisan migrate
-    ```
 
 ## Usage
 
@@ -218,39 +175,4 @@ Unit tests for core functionality are located in the tests/ directory.
 
 To run the tests, execute:
 
-        ./vendor/bin/phpunit
-
-You can also run tests within the Docker container by:
-
-        docker-compose exec app ./vendor/bin/phpunit
-
-
-## Docker Usage
-    To run the application using Docker and Docker Compose, follow these steps:
-
-1. **Build and Start the Containers:**
-
-    Use the following command to build and start the containers:
-
-    ```bash
-
-    docker-compose up --build
-    ```
-    This will build the images and start the containers, including the database and the web server.
-
-2. **Access the Application:**
-
-    Once the containers are up and running, access the application at http://localhost:8000.
-
-
-## Contributing
-    We welcome contributions from the community. If you'd like to contribute, follow these steps:
-
-    1. Fork the repository.
-    2. Create a new branch (git checkout -b feature-name).
-    3. Make your changes and commit (git commit -am 'Add feature').
-    4. Push to the branch (git push origin feature-name).
-    5. Create a pull request describing your changes.
-
-## License
-    This project is licensed under the MIT License.
+    docker-compose exec app ./vendor/bin/phpunit
