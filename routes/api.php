@@ -3,7 +3,8 @@
 use App\Http\Controllers\API\PaymentController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/payment/initiate', [PaymentController::class, 'initiatePayment']);
-Route::post('/payment/verify', [PaymentController::class, 'verifyPayment']);
+Route::prefix('payment')->group(function () {
+    Route::post('/initiate', [PaymentController::class, 'initiatePayment']);
+    Route::post('/verify', [PaymentController::class, 'verifyPayment']);
+});
 Route::post('/stripe/webhook', [PaymentController::class, 'handleStripeWebhook']);
-
