@@ -2,7 +2,7 @@
 
 namespace App\Services\PaymentGateways;
 
-use App\Interfaces\PaymentGateway;
+use App\Interfaces\PaymentGatewayInterface;
 use App\Models\StripePayment;
 use Illuminate\Support\Facades\Log;
 use Stripe\Checkout\Session;
@@ -10,7 +10,7 @@ use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Stripe\Webhook;
 
-class StripeGateway implements PaymentGateway
+class StripeGateway implements PaymentGatewayInterface
 {
     public function __construct()
     {

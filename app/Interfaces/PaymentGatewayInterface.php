@@ -3,7 +3,7 @@ namespace App\Interfaces;
 
 use Illuminate\Http\Request;
 
-interface PaymentGateway
+interface PaymentGatewayInterface
 {
     public function initiatePayment(array $data): string;
     public function verifyPayment(string $paymentId);

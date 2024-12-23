@@ -2,10 +2,10 @@
 
 namespace App\Services\PaymentGateways;
 
-use App\Interfaces\PaymentGateway;
+use App\Interfaces\PaymentGatewayInterface;
+use Illuminate\Http\Request;
 
-
-class PayPalGateway implements PaymentGateway
+class PayPalGateway implements PaymentGatewayInterface
 {
 
     public function initiatePayment(array $data): string
@@ -18,7 +18,7 @@ class PayPalGateway implements PaymentGateway
         return true;
     }
 
-    public function handleWebhook(array $payload): void
+    public function handleWebhook(Request $request): void
     {
     }
 }
