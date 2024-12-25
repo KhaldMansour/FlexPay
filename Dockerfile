@@ -35,8 +35,8 @@ RUN composer clear-cache
 RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
 
 # Set proper permissions for Laravel storage and cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Expose Apache port
 EXPOSE 80
