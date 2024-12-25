@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install --reinstall ca-certificates -y \
 RUN a2enmod rewrite
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql zip bcmath ctype fileinfo mbstring openssl
+RUN apt-get install -y pdo_mysql zip bcmath ctype fileinfo mbstring openssl
 
 # Configure Apache DocumentRoot to point to Laravel's public directory
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
