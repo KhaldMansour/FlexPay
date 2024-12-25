@@ -30,7 +30,8 @@ WORKDIR /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install project dependencies
-RUN composer self-update
+RUN composer composer config --global disable-tls true
+
 RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
 
 # Set permissions
