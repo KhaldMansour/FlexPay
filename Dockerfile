@@ -30,7 +30,8 @@ WORKDIR /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install project dependencies
-RUN ls -lah
+RUN COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage
