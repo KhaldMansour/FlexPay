@@ -4,6 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="InitiatePaymentRequest", 
+ *     type="object", 
+ *     required={"gateway", "product_name", "amount", "quantity", "currency"},
+ *     @OA\Property(property="gateway", type="string", example="stripe"),
+ *     @OA\Property(property="product_name", type="string", example="hello"),
+ *     @OA\Property(property="amount", type="number", format="float", example=150),
+ *     @OA\Property(property="quantity", type="integer", example=1),
+ *     @OA\Property(property="currency", type="string", example="usd")
+ * )
+ */
 class InitiatePaymentRequest extends FormRequest
 {
     /**

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 
+/**
+ * @OA\Info(title="My API", version="1.0")
+ */
 abstract class Controller
 {
     public function successResponse($data, $message = 'Request successful', $statusCode = Response::HTTP_OK)

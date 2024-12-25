@@ -1,0 +1,209 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/payment/initiate": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Initiate a payment process",
+                "operationId": "c647abfb3f939bd129c0d564dce104a4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InitiatePaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment initiation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Request successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "checkout_url": {
+                                                    "type": "string",
+                                                    "example": "https://checkout.stripe.com/c/pay/cs_test_a1UjmkJYs4udW6d0TNPGZqZL2jf9GRt5sbSCRPK1pvvACblTQNfwvFXoeB#fidkdWxOYHwnPyd1blpxYHZxWjA0QnRUdzJNUk5nVTVMX31ITUxpTXMzX3IxUUcwUlV0dk5OTWd3cnU3RmBDTHNsfHRJPXw3PTx1Mn1VbTU9aGxgTHNPZnxocms2V0RRVH1WQ3BwdkwxPT1dNTVDdkpfV3YzcCcpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/payment/verify": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Verify a payment",
+                "operationId": "c8354ef28561b3dfc4caa33508c38649",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyPaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment verification successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Request successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "successfulPayment": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "InitiatePaymentRequest": {
+                "required": [
+                    "gateway",
+                    "product_name",
+                    "amount",
+                    "quantity",
+                    "currency"
+                ],
+                "properties": {
+                    "gateway": {
+                        "type": "string",
+                        "example": "stripe"
+                    },
+                    "product_name": {
+                        "type": "string",
+                        "example": "hello"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 150
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "usd"
+                    }
+                },
+                "type": "object"
+            },
+            "VerifyPaymentRequest": {
+                "required": [
+                    "gateway",
+                    "paymentId"
+                ],
+                "properties": {
+                    "gateway": {
+                        "type": "string",
+                        "example": "stripe"
+                    },
+                    "paymentId": {
+                        "type": "string",
+                        "example": "pi_3QYXmSHWKbP0IZxM1Syds395"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Payment",
+            "description": "Payment"
+        }
+    ]
+}

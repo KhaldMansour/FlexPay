@@ -4,6 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="VerifyPaymentRequest", 
+ *     type="object", 
+ *     required={"gateway", "paymentId"},
+ *     @OA\Property(property="gateway", type="string", example="stripe"),
+ *     @OA\Property(property="paymentId", type="string", example="pi_3QYXmSHWKbP0IZxM1Syds395")
+ * )
+ */
 class VerifyPaymentRequest extends FormRequest
 {
     /**
