@@ -30,6 +30,16 @@ jobs:
         run: |
           curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           chmod +x /usr/local/bin/docker-compose
+          
+      - name: Set up .env file from secrets
+        run: |
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=flexpay" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
 
       - name: Build and start containers
         run: docker-compose up -d --build
