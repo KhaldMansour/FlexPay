@@ -3,9 +3,13 @@ FROM php:8.2-apache as web
 
 # Install Additional System Dependencies
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    zip
-
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -33,6 +37,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install
 
 # Set permissions
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 RUN chown -R www-data:www-data /var/www/html/storage
 RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
 
