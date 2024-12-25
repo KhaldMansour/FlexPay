@@ -1,5 +1,5 @@
 # Use PHP with Apache as the base image
-FROM php:8.2-apache
+FROM php:8.2-apache as web
 
 # Install system dependencies for PHP extensions
 RUN apt-get update && apt-get install -y \
