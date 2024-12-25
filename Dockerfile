@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install --reinstall ca-certificates -y \
 RUN a2enmod rewrite
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql zip
+RUN docker-php-ext-install pdo_mysql zip bcmath ctype fileinfo mbstring openssl
 
 # Configure Apache DocumentRoot to point to Laravel's public directory
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
@@ -24,19 +24,19 @@ COPY . /var/www/html
 # Set the working directory
 WORKDIR /var/www/html
 
-# Install composer
+# Ensure correct ownership and permissions for files
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer config --global disable-tls true
 
-# Clear Composer cache (if needed)
+# Clear Composer cache
 RUN composer clear-cache
 
 # Install project dependencies
-RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
-
-# Set proper permissions for Laravel storage and cache
-# RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN composer install -vvv --ignore-platform-reqs --no-plugins --no-scripts
 
 # Expose Apache port
 EXPOSE 80
