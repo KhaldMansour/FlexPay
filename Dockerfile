@@ -4,10 +4,8 @@ FROM php:8.2-apache as web
 # Install Additional System Dependencies
 RUN apt-get update && apt-get install --reinstall ca-certificates -y \
     libzip-dev \
-    zip
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mod_rewrite for URL rewriting
 RUN a2enmod rewrite
@@ -16,7 +14,6 @@ RUN a2enmod rewrite
 RUN docker-php-ext-install pdo_mysql zip
 
 # Configure Apache DocumentRoot to point to Laravel's public directory
-# and update Apache configuration files
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
@@ -26,15 +23,23 @@ COPY . /var/www/html
 
 # Set the working directory
 WORKDIR /var/www/html
+
 # Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer config --global disable-tls true
+
+# Clear Composer cache (if needed)
+RUN composer clear-cache
 
 # Install project dependencies
-RUN cp --from=composer /usr/local/bin/composer /usr/bin/composer
 RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage
-RUN chown -R www-data:www-data /var/www/html/bootstrap/cache
+# Set proper permissions for Laravel storage and cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-RUN chmod -R 777 /var/www/html/storage
+# Expose Apache port
+EXPOSE 80
+
+# Start Apache service in the foreground
+CMD ["apache2-foreground"]
