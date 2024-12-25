@@ -30,8 +30,11 @@ WORKDIR /var/www/html
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install project dependencies
-RUN composer install
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Install project dependencies and clear the composer cache
+RUN composer install --no-dev --optimize-autoloader --prefer-dist && composer clear-cache
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
