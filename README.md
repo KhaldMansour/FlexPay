@@ -11,6 +11,7 @@
    - [Docker Setup](#docker-setup)
 6. [Usage](#usage)
 7. [Testing](#testing)
+8. [Swagger Documentation](#swagger-documentation)
 ---
 
 ## Introduction
@@ -176,3 +177,16 @@ Unit tests for core functionality are located in the tests/ directory.
 To run the tests, execute:
 
     docker-compose exec app ./vendor/bin/phpunit
+
+## Swagger Documentation
+
+Swagger is used to document the API endpoints and requests. This provides a UI for developers to explore the API and see the expected request and response formats.
+
+To view the Swagger documentation, access:
+
+``http://localhost:8000/api/documentation``
+
+This will show the interactive API documentation for the payment gateway system, where you can view the details of all the available endpoints, request payloads, and responses.
+
+---
+
