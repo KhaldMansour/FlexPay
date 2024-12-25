@@ -1,24 +1,28 @@
 # Use PHP with Apache as the base image
-FROM php:8.2-apache as web
+FROM php:8.2-apache
 
-# Install Additional System Dependencies
-RUN apt-get update && apt-get install --reinstall ca-certificates -y \
+# Install system dependencies for PHP extensions
+RUN apt-get update && apt-get install -y \
     libzip-dev \
-    zip \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libxml2-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mod_rewrite for URL rewriting
 RUN a2enmod rewrite
 
 # Install PHP extensions
-RUN apt-get install -y pdo_mysql zip bcmath ctype fileinfo mbstring openssl
+RUN docker-php-ext-install pdo_mysql zip bcmath ctype fileinfo mbstring
 
 # Configure Apache DocumentRoot to point to Laravel's public directory
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Copy the application code
+# Copy the application code into the container
 COPY . /var/www/html
 
 # Set the working directory
@@ -36,7 +40,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer clear-cache
 
 # Install project dependencies
-RUN composer install -vvv --ignore-platform-reqs --no-plugins --no-scripts
+RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
 
 # Expose Apache port
 EXPOSE 80
