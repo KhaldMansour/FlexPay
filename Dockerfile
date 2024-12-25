@@ -34,7 +34,7 @@ RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Install project dependencies and clear the composer cache
-RUN composer install --no-dev --optimize-autoloader --prefer-dist && composer clear-cache
+RUN composer install -vvv --no-dev --optimize-autoloader --prefer-dist
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
