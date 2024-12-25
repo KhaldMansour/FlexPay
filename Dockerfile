@@ -1,7 +1,7 @@
 # Use PHP with Apache as the base image
 FROM php:8.2-apache as web
 
-# Install system dependencies for PHP extensions
+# Install system dependencies for PHP extensions and general utility
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
@@ -28,21 +28,17 @@ COPY . /var/www/html
 # Set the working directory
 WORKDIR /var/www/html
 
-# Ensure correct ownership and permissions for files
-RUN chown -R www-data:www-data /var/www/html
+# Install Composer (Specify a version to avoid instability)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Clear Composer cache and install project dependencies
+RUN composer clear-cache && composer install --no-scripts --no-plugins --ignore-platform-reqs
+
+# Set the correct file permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer config --global disable-tls true
-
-# Clear Composer cache
-RUN composer clear-cache
-
-# Install project dependencies
-RUN composer install --ignore-platform-reqs --no-plugins --no-scripts
-
-# Expose Apache port
+# Expose Apache port (HTTP)
 EXPOSE 80
 
 # Start Apache service in the foreground
