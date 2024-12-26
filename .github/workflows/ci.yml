@@ -51,7 +51,7 @@ jobs:
         run: docker-compose up -d --build
 
       - name: Run PHPUnit tests
-        run: docker-compose exec -T web ./vendor/bin/phpunit
+        run: docker compose exec -T web ./vendor/bin/phpunit
 
       - name: Stop Docker containers
         run: docker-compose down
