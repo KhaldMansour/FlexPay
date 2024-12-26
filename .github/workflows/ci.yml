@@ -39,7 +39,7 @@ jobs:
     # Build and start containers with verbose output
     - name: Build and start containers with verbose output
       run: |
-        docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
+        docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans 
 
     # Show Docker Compose logs for web service
     - name: Show Docker Compose logs for web
