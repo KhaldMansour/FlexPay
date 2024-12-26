@@ -41,6 +41,9 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
       
+      - name: Check internet connection
+        run: composer -
+
       - name: docker build
         run: docker-compose build
 
@@ -48,7 +51,7 @@ jobs:
         run: docker-compose up -d --build
 
       - name: Run PHPUnit tests
-        run: docker-compose exec -T app ./vendor/bin/phpunit --no-interaction
+        run: docker-compose exec -T web ./vendor/bin/phpunit --no-interaction
 
       - name: Stop Docker containers
         run: docker-compose down
