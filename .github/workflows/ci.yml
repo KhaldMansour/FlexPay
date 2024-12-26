@@ -11,6 +11,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_STEP_DEBUG: true
+      ACTIONS_RUNNER_DEBUG: true
 
     services:
       db:
@@ -54,7 +57,7 @@ jobs:
     # Run PHPUnit tests
     - name: Run PHPUnit tests
       run: |
-        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml
+        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --verbose --debug
 
     # Tear down containers
     - name: Shut down containers
