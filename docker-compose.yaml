@@ -1,5 +1,6 @@
 version: '3.8'
 
+
 services:
   web:
     image: app-name:latest
@@ -21,10 +22,8 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: flexpay
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root       # Set the root password
+      MYSQL_DATABASE: flexpay         # Create a database named 'flexpay'
     ports:
       - "3308:3306"
     volumes:
