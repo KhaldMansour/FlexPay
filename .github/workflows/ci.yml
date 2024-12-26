@@ -1,57 +1,62 @@
-name: CI Pipeline
+name: PHP CI with PHPUnit
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
-      docker:
-        image: docker:19.03.12
-        options: --privileged
+      db:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: flexpay
         ports:
-          - 2375:2375
+          - 3306:3306
+        volumes:
+          - dbdata:/var/lib/mysql
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    # Set up Docker Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Set up Docker Compose
-        run: |
-          curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          chmod +x /usr/local/bin/docker-compose
+    # Set up Docker Compose
+    - name: Set up Docker Compose
+      uses: docker/compose-action@v2.0.0
 
-      - name: Set up .env file from secrets
-        run: |
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=flexpay" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
-      
-      - name: Check internet connection
-        run: composer -
+    # Build and start containers with verbose output
+    - name: Build and start containers with verbose output
+      run: |
+        docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
 
-      - name: docker build
-        run: docker-compose build
+    # Show Docker Compose logs for web service
+    - name: Show Docker Compose logs for web
+      run: |
+        docker-compose logs web
 
-      - name: Build and start containers
-        run: docker-compose up -d --build
+    # Wait for DB to be ready
+    - name: Wait for DB to be ready
+      run: |
+        docker-compose exec db bash -c 'until mysqladmin ping -h"localhost" --silent; do echo "Waiting for database"; sleep 5; done;'
 
-      - name: Run PHPUnit tests
-        run: docker compose exec -T web ./vendor/bin/phpunit --version
+    # Run PHPUnit tests
+    - name: Run PHPUnit tests
+      run: |
+        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml
 
-      - name: Stop Docker containers
-        run: docker-compose down
+    # Tear down containers
+    - name: Shut down containers
+      run: |
+        docker-compose down
