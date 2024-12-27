@@ -60,11 +60,6 @@ jobs:
         run: |
           sudo docker-compose logs web
 
-      # Wait for DB to be ready
-      - name: Wait for DB to be ready
-        run: |
-          sudo docker-compose exec db bash -c 'until mysqladmin ping -h"localhost" --silent; do echo "Waiting for database"; sleep 5; done;'
-
       # Run PHPUnit tests
       - name: Run PHPUnit tests
         run: |
