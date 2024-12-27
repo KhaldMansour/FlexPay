@@ -54,16 +54,17 @@ jobs:
       - name: Build and start containers with verbose output
         run: |
           docker-compose -f docker-compose.yaml up -d --build --force-recreate --remove-orphans  
-
+ 
+      # Run PHPUnit tests
+      - name: Run PHPUnit tests
+        run: |
+          sudo docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug 
+        
       # Show Docker Compose logs for the web service
       - name: Show Docker Compose logs for web
         run: |
           sudo docker-compose logs web
 
-      # Run PHPUnit tests
-      - name: Run PHPUnit tests
-        run: |
-          sudo docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug 
 
       # Tear down containers
       - name: Shut down containers
