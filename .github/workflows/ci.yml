@@ -27,39 +27,32 @@ jobs:
           - dbdata:/var/lib/mysql
 
     steps:
-    # Checkout code
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    # Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      # Set up Docker Buildx (for Docker multi-platform builds, if necessary)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-    # Set up Docker Compose
-    - name: Set up Docker Compose
-      uses: docker/compose-action@v2.0.0
+      # Install Docker Compose manually
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version  # Verify Docker Compose installation
 
-    # Build and start containers with verbose output
-    - name: Build and start containers with verbose output
-      run: |
-        docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans 
+      # Build and start containers with Docker Compose
+      - name: Build and start containers with verbose output
+        run: |
+          sudo docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans 
 
-    # Show Docker Compose logs for web service
-    - name: Show Docker Compose logs for web
-      run: |
-        docker-compose logs web
+      # Show Docker Compose logs for the web service
+      - name: Show Docker Compose logs for web
+        run: |
+          sudo docker-compose logs web
 
-    # Wait for DB to be ready
-    - name: Wait for DB to be ready
-      run: |
-        docker-compose exec db bash -c 'until mysqladmin ping -h"localhost" --silent; do echo "Waiting for database"; sleep 5; done;'
-
-    # Run PHPUnit tests
-    - name: Run PHPUnit tests
-      run: |
-        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug 
-
-    # Tear down containers
-    - name: Shut down containers
-      run: |
-        docker-compose down
+      # Wait for DB to be ready
+      - name: Wait for DB to be ready
+        run: |
+          sudo docker-compose exec db bash -c 'until mys
