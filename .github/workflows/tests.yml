@@ -62,4 +62,4 @@ jobs:
     # Tear down containers
     - name: Shut down containers
       run: |
-        docker-compose down
+        docker-compose down 
