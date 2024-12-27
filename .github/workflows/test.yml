@@ -30,6 +30,14 @@ jobs:
       # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
+            # Create .env file
+      - name: Create .env file
+        run: |
+          echo "DB_HOST=localhost" > .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=root" >> .env
+          echo "DB_DATABASE=flexpay" >> .env
 
       # Set up Docker Buildx (for Docker multi-platform builds, if necessary)
       - name: Set up Docker Buildx
