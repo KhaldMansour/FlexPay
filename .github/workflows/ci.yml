@@ -1,65 +1,65 @@
-name: PHP CI with PHPUnit
+# name: PHP CI with PHPUnit
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    env:
-      ACTIONS_STEP_DEBUG: true
-      ACTIONS_RUNNER_DEBUG: true
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     env:
+#       ACTIONS_STEP_DEBUG: true
+#       ACTIONS_RUNNER_DEBUG: true
 
-    services:
-      db:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: flexpay
-        ports:
-          - 3306:3306
-        volumes:
-          - dbdata:/var/lib/mysql
+#     services:
+#       db:
+#         image: mysql:5.7
+#         env:
+#           MYSQL_ROOT_PASSWORD: root
+#           MYSQL_DATABASE: flexpay
+#         ports:
+#           - 3306:3306
+#         volumes:
+#           - dbdata:/var/lib/mysql
 
-    steps:
-    # Checkout code
-    - name: Checkout code
-      uses: actions/checkout@v2
+#     steps:
+#     # Checkout code
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-    # Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+#     # Set up Docker Buildx
+#     - name: Set up Docker Buildx
+#       uses: docker/setup-buildx-action@v2
 
-    # Set up Docker Compose
-    - name: Set up Docker Compose
-      uses: docker/compose-action@v2.0.0
+#     # Set up Docker Compose
+#     - name: Set up Docker Compose
+#       uses: docker/compose-action@v2.0.0
 
-    # Build and start containers with verbose output
-    - name: Build and start containers with verbose output
-      run: |
-        docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans 
+#     # Build and start containers with verbose output
+#     - name: Build and start containers with verbose output
+#       run: |
+#         docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans 
 
-    # Show Docker Compose logs for web service
-    - name: Show Docker Compose logs for web
-      run: |
-        docker-compose logs web
+#     # Show Docker Compose logs for web service
+#     - name: Show Docker Compose logs for web
+#       run: |
+#         docker-compose logs web
 
-    # Wait for DB to be ready
-    - name: Wait for DB to be ready
-      run: |
-        docker-compose exec db bash -c 'until mysqladmin ping -h"localhost" --silent; do echo "Waiting for database"; sleep 5; done;'
+#     # Wait for DB to be ready
+#     - name: Wait for DB to be ready
+#       run: |
+#         docker-compose exec db bash -c 'until mysqladmin ping -h"localhost" --silent; do echo "Waiting for database"; sleep 5; done;'
 
-    # Run PHPUnit tests
-    - name: Run PHPUnit tests
-      run: |
-        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug
+#     # Run PHPUnit tests
+#     - name: Run PHPUnit tests
+#       run: |
+#         docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug
 
-    # Tear down containers
-    - name: Shut down containers
-      run: |
-        docker-compose down
+#     # Tear down containers
+#     - name: Shut down containers
+#       run: |
+#         docker-compose down
