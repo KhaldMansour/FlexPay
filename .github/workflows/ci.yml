@@ -57,7 +57,7 @@ jobs:
     # Run PHPUnit tests
     - name: Run PHPUnit tests
       run: |
-        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug
+        docker-compose exec web vendor/bin/phpunit --configuration phpunit.xml --debug 
 
     # Tear down containers
     - name: Shut down containers
